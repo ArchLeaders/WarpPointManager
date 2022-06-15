@@ -7,6 +7,7 @@
         xmlns:local="clr-namespace:WarpPointManager.Views"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:s="https://github.com/canton7/Stylet"
+        xmlns:vm="clr-namespace:WarpPointManager.ViewModels"
         xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
         x:Name="shellView"
         Title="{Binding Title}"
@@ -28,18 +29,66 @@
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
 
-        <StackPanel x:Name="content"
-                    Grid.Row="1"
-                    Margin="15">
-            <TextBox Margin="0,15" Text="{Binding HelloWorld, UpdateSourceTrigger=PropertyChanged}" />
-            <CheckBox Margin="0,15" Content="IsCheckBox = True" />
-            <Button Margin="0,15" Content="Click" />
-        </StackPanel>
+        <ListBox Name="warpDefinitions"
+                 Grid.Row="1"
+                 Margin="5"
+                 Padding="0"
+                 Background="Transparent"
+                 BorderThickness="0"
+                 Foreground="{DynamicResource MaterialDesignBody}"
+                 ItemsSource="{Binding WarpDefinitions}"
+                 ScrollViewer.CanContentScroll="False"
+                 SelectedItem="{Binding SelectedWarpDefinition}"
+                 Style="{x:Null}">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type vm:EditorViewModel}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="20" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Margin="-8"
+                                 Cursor="Arrow"
+                                 IsReadOnly="True"
+                                 Style="{DynamicResource Blank}"
+                                 Text="" />
+                        <TextBox Grid.Column="1"
+                                 Margin="0,-6"
+                                 Cursor="Arrow"
+                                 IsReadOnly="True"
+                                 Style="{DynamicResource Blank}"
+                                 Text="{Binding Title}" />
+                        <Button Grid.Column="2"
+                                Margin="-7"
+                                Padding="0,0,10,0"
+                                s:View.ActionTarget="{Binding DataContext, ElementName=warpDefinitions}"
+                                Command="{s:Action Edit}"
+                                CommandParameter="{Binding}"
+                                Style="{DynamicResource HiddenMenu}">
+                            <wpf:PackIcon Kind="Edit" />
+                        </Button>
+                        <Button Grid.Column="3"
+                                Margin="-7"
+                                Padding="0,0,10,0"
+                                s:View.ActionTarget="{Binding DataContext, ElementName=warpDefinitions}"
+                                Command="{s:Action Delete}"
+                                CommandParameter="{Binding}"
+                                Style="{DynamicResource HiddenMenu}">
+                            <wpf:PackIcon Kind="Remove" />
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
         <ContentControl x:Name="settings"
                         Grid.Row="1"
                         s:View.Model="{Binding SettingsViewModel}"
                         Visibility="Hidden" />
+
+        <ContentControl Grid.Row="1" s:View.Model="{Binding OpenWarpDefinition}" />
 
         <ContentControl Grid.Row="1"
                         s:View.Model="{Binding HandledExceptionViewModel}"

@@ -25,30 +25,41 @@ namespace WarpPointManager.ViewModels
         public string DiscordInvite { get; set; } = "https://discord.gg/vPzgy5S";
         public ulong DiscordReportChannel { get; set; } = 986465864180183090;
 
-        ///
-        /// Actions
-        ///
-        #region Actions
+        //
+        // Actions
+        #region Expand
 
-        #endregion
-
-        ///
-        /// Properties
-        ///
-        #region Properties
-
-        private string _helloWorld = "Hello World!";
-        public string HelloWorld {
-            get => _helloWorld;
-            set => SetAndNotify(ref _helloWorld, value);
+        public void Edit(EditorViewModel entry) => OpenWarpDefinition = entry;
+        public void Delete(EditorViewModel entry)
+        {
+            if (WindowManager.Show("Are you sure you want to delete this warp entry?\nThis cannot be undone!", "Warning", true, exColor: "#123532", 260)) {
+                WarpDefinitions.Remove(entry);
+            }
         }
 
         #endregion
 
-        ///
-        /// Bindings
-        ///
-        #region Bindings
+        //
+        // Properties
+        #region Expand
+
+        private EditorViewModel? _openWarpDefinition;
+        public EditorViewModel? OpenWarpDefinition {
+            get => _openWarpDefinition;
+            set => SetAndNotify(ref _openWarpDefinition, value);
+        }
+
+        private BindableCollection<EditorViewModel> _warpDefinitions = new();
+        public BindableCollection<EditorViewModel> WarpDefinitions {
+            get => _warpDefinitions;
+            set => SetAndNotify(ref _warpDefinitions, value);
+        }
+
+        #endregion
+
+        //
+        // Bindings
+        #region Expand
 
         private Visibility _handledExceptionViewVisibility = Visibility.Collapsed;
         public Visibility HandledExceptionViewVisibility {
@@ -58,11 +69,11 @@ namespace WarpPointManager.ViewModels
 
         #endregion
 
-        ///
-        /// DataContext
-        ///
-        #region DataContext
+        //
+        // DataContext
+        #region Expand
 
+        //
         // Views
         public SettingsViewModel? SettingsViewModel { get; set; } = null;
 
@@ -72,6 +83,7 @@ namespace WarpPointManager.ViewModels
             set => SetAndNotify(ref _handledExceptionViewModel, value);
         }
 
+        //
         // App
         public bool CanFullscreen { get; set; } = CanResize;
         public ResizeMode ResizeMode { get; set; } = CanResize ? ResizeMode.CanResize : ResizeMode.CanMinimize;
@@ -99,11 +111,14 @@ namespace WarpPointManager.ViewModels
         {
             WindowManager = windowManager;
             SettingsViewModel = new(windowManager);
+
+            WarpDefinitions.Add(new(this));
+            WarpDefinitions.Add(new(this));
+            WarpDefinitions.Add(new(this));
         }
 
-        ///
-        /// Root Error handling
-        /// 
+        //
+        // Root Error handling
         public void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
             Exception ex = e.Exception as Exception ?? new();
