@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="WarpPointManager.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WarpPointManager.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:s="https://github.com/canton7/Stylet"
+             xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+             d:DesignHeight="300"
+             d:DesignWidth="600"
+             Style="{StaticResource WarpPointManager_Control}"
+             mc:Ignorable="d">
+
+    <Grid Margin="15">
+        <StackPanel>
+            <TextBlock Margin="0,0,0,5" Text="Base Game" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="80" />
+                </Grid.ColumnDefinitions>
+                <TextBox Text="{Binding BaseDump}" />
+                <Button Grid.Column="2"
+                        Command="{s:Action Browse}"
+                        CommandParameter="base">
+                    <wpf:PackIcon Kind="Folder" />
+                </Button>
+            </Grid>
+
+            <TextBlock Margin="0,15,0,5" Text="Update" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="80" />
+                </Grid.ColumnDefinitions>
+                <TextBox Text="{Binding UpdateDump}" />
+                <Button Grid.Column="2"
+                        Command="{s:Action Browse}"
+                        CommandParameter="update">
+                    <wpf:PackIcon Kind="Folder" />
+                </Button>
+            </Grid>
+
+            <TextBlock Margin="0,15,0,5" Text="DLC (optional)" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="80" />
+                </Grid.ColumnDefinitions>
+                <TextBox Text="{Binding DlcDump}" />
+                <Button Grid.Column="2"
+                        Command="{s:Action Browse}"
+                        CommandParameter="dlc">
+                    <wpf:PackIcon Kind="Folder" />
+                </Button>
+            </Grid>
+        </StackPanel>
+        <Button Grid.Column="2"
+                Width="80"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Command="{s:Action Save}">
+            <wpf:PackIcon Kind="FloppyDisc" />
+        </Button>
+    </Grid>
+
+</UserControl>
