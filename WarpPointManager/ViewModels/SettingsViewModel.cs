@@ -39,12 +39,12 @@ namespace WarpPointManager.ViewModels
 
                 // Update
                 if (mode == "update") {
-                    BaseDump = openFld.SelectedPath;
+                    UpdateDump = openFld.SelectedPath;
                 }
 
                 // DLC
                 if (mode == "dlc") {
-                    BaseDump = openFld.SelectedPath;
+                    DlcDump = openFld.SelectedPath;
                 }
             }
         }
